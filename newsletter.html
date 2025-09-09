@@ -121,7 +121,6 @@
     const closeModal = document.getElementById('closeModal');
     const goHome = document.getElementById('goHome');
 
-    // Helpers para errores
     function setErr(id, msg){ document.getElementById(id).textContent = msg || ""; }
     function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
@@ -150,10 +149,10 @@
           showThanks(); form.reset(); return;
         }
 
-
 await fetch(WEBHOOK_URL, {
   method: "POST",
-
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
     name,
     email,
     question,
@@ -161,6 +160,7 @@ await fetch(WEBHOOK_URL, {
     timestamp: new Date().toISOString()
   })
 });
+
 
         if(!res.ok){
           throw new Error("Error al enviar ("+res.status+")");
