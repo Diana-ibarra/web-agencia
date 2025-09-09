@@ -115,8 +115,7 @@
   </div>
 
   <script>
-    const WEBHOOK_URL = "https://hook.eu2.make.com/w2z37vvgbftj3dafuh7lepxvcji7mix0;
-    const form = document.getElementById('newsletterForm');
+    const WEBHOOK_URL = https:https://hook.eu2.make.com/w2z37vvgbftj3dafuh7lepxvcji7mix0
     const overlay = document.getElementById('thanksOverlay');
     const closeModal = document.getElementById('closeModal');
     const goHome = document.getElementById('goHome');
@@ -151,7 +150,7 @@
 
 await fetch(WEBHOOK_URL, {
   method: "POST",
-  headers: { "Content-Type": "application/json" },
+  // sin headers → simple request
   body: JSON.stringify({
     name,
     email,
@@ -160,7 +159,6 @@ await fetch(WEBHOOK_URL, {
     timestamp: new Date().toISOString()
   })
 });
-
 
         if(!res.ok){
           throw new Error("Error al enviar ("+res.status+")");
