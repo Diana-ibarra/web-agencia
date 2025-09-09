@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suscríbete a la newsletter</title>
 
-  <!-- ===== Personaliza fácilmente aquí =====
-       Colores (ejemplo del enunciado):
-       fondo: #ffffff, botón: #6c63ff, texto: #333333
-       Cambia los valores y guarda. -->
+ 
   <style>
     :root{
       --bg:#ffffff;
       --text:#333333;
       --muted:#6b7280;
       --primary:#6c63ff;
-      --primary-hover:#5952d4; /* tono un poco más oscuro */
+      --primary-hover:#5952d4; 
       --error:#ef4444;
       --radius:14px;
       --shadow:0 10px 30px rgba(0,0,0,.08);
@@ -51,7 +48,7 @@
     button:hover{background:var(--primary-hover)}
     .note{margin-top:10px; font-size:12px; color:var(--muted); text-align:center}
 
-    /* Modal de gracias */
+
     .overlay{
       position:fixed; inset:0; background:rgba(0,0,0,.5);
       display:none; align-items:center; justify-content:center; padding:20px;
@@ -68,7 +65,6 @@
     .secondary{background:#f3f4f6; color:#111827}
     .secondary:hover{background:#e5e7eb}
 
-    /* Responsive pequeño ajuste */
     @media (max-width:380px){
       h1{font-size:24px}
       button{font-size:15px}
@@ -79,10 +75,6 @@
   <main class="card" role="main">
     <h1>Suscríbete a la newsletter</h1>
     <p class="lead">Recibe ideas útiles y casos reales sobre IA y SEO.</p>
-
-    <!-- ⚙️ EDITA AQUÍ tu pregunta personalizada (texto del label) -->
-    <!-- ⚙️ Si quieres textarea en vez de input, descomenta el <textarea> y elimina el input correspondiente -->
-
     <form id="newsletterForm" novalidate>
       <div class="field">
         <label for="name">Nombre *</label>
@@ -99,9 +91,8 @@
       <div class="field">
         <label for="question">¿Qué te gustaría aprender sobre Inteligencia Artificial? *</label>
         <input id="question" name="question" type="text" placeholder="Tu respuesta" required />
-        <!-- Ejemplo alternativa con textarea:
-        <textarea id="question" name="question" rows="3" placeholder="Tu respuesta" required></textarea>
-        -->
+       
+    
         <small class="error" id="err-question"></small>
       </div>
 
@@ -111,7 +102,7 @@
     </form>
   </main>
 
-  <!-- Modal Gracias -->
+
   <div class="overlay" id="thanksOverlay" role="dialog" aria-modal="true" aria-labelledby="thanksTitle">
     <div class="modal">
       <h2 id="thanksTitle">¡Gracias por suscribirte! 🎉</h2>
@@ -124,11 +115,7 @@
   </div>
 
   <script>
-    // ===== WEBHOOK: edita esta URL =====
-    // Ejemplo del enunciado:
     const WEBHOOK_URL = "https://hook.eu2.make.com/w2z37vvgbftj3dafuh7lepxvcji7mix0;
-    // Si aún no lo tienes, deja una cadena vacía "" y el formulario simulará el envío.
-
     const form = document.getElementById('newsletterForm');
     const overlay = document.getElementById('thanksOverlay');
     const closeModal = document.getElementById('closeModal');
@@ -145,7 +132,6 @@
       const email = form.email.value.trim();
       const question = form.question.value.trim();
 
-      // Validación simple
       let ok = true;
       if(!name){ setErr('err-name',"Por favor escribe tu nombre."); ok=false; } else setErr('err-name',"");
       if(!email){ setErr('err-email',"El correo es obligatorio."); ok=false; }
@@ -154,22 +140,20 @@
       if(!question){ setErr('err-question',"Cuéntame qué te gustaría aprender."); ok=false; } else setErr('err-question',"");
       if(!ok) return;
 
-      // Desactivar botón mientras se envía
       const btn = document.getElementById('submitBtn');
       const prev = btn.textContent; btn.textContent = "Enviando…"; btn.disabled = true;
 
       try{
-        // Si no hay webhook, simulamos éxito
+
         if(!WEBHOOK_URL){
           console.warn("Sin WEBHOOK_URL: simulando envío. Completa la constante WEBHOOK_URL en el código.");
           showThanks(); form.reset(); return;
         }
 
-// Enviar SIN cabeceras personalizadas para evitar preflight CORS
+
 await fetch(WEBHOOK_URL, {
   method: "POST",
-  // sin headers: que el navegador lo mande como "simple request"
-  body: JSON.stringify({
+
     name,
     email,
     question,
@@ -177,13 +161,12 @@ await fetch(WEBHOOK_URL, {
     timestamp: new Date().toISOString()
   })
 });
-// como no leemos la respuesta, mostramos el modal de gracias igualmente
 
         if(!res.ok){
           throw new Error("Error al enviar ("+res.status+")");
         }
 
-        // Éxito
+
         form.reset();
         showThanks();
 
@@ -200,7 +183,7 @@ await fetch(WEBHOOK_URL, {
 
     closeModal.addEventListener('click', hideThanks);
     goHome.addEventListener('click', ()=>{ window.location.href = "index.html"; });
-    // Cerrar al clicar fuera del modal
+  
     overlay.addEventListener('click', (e)=>{ if(e.target === overlay) hideThanks(); });
   </script>
 </body>
