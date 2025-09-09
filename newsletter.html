@@ -165,15 +165,19 @@
           showThanks(); form.reset(); return;
         }
 
-        const res = await fetch(WEBHOOK_URL, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify({
-            name, email, question,
-            source: "newsletter-form",
-            timestamp: new Date().toISOString()
-          })
-        });
+// Enviar SIN cabeceras personalizadas para evitar preflight CORS
+await fetch(WEBHOOK_URL, {
+  method: "POST",
+  // sin headers: que el navegador lo mande como "simple request"
+  body: JSON.stringify({
+    name,
+    email,
+    question,
+    source: "newsletter-form",
+    timestamp: new Date().toISOString()
+  })
+});
+// como no leemos la respuesta, mostramos el modal de gracias igualmente
 
         if(!res.ok){
           throw new Error("Error al enviar ("+res.status+")");
