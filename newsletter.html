@@ -132,7 +132,7 @@
 
   <script>
 
-    const WEBHOOK_URL = https://hook.eu2.make.com/s74lpodn5fweb3ma1whcpn2t46yrev9l;
+    const WEBHOOK_URL = https:https://hook.eu2.make.com/bvnb96s9tif1dd2l7zw1y7lsgxdiswwb;
 
     const form  = document.getElementById('newsletter-form');
     const btn   = document.getElementById('btn');
@@ -163,7 +163,7 @@
       const email    = form.email.value.trim();
       const question = form.question.value.trim();
 
-      // Validación básica
+   
       let ok = true;
       if (name.length < 2)        { setErr('err-name', 'Escribe tu nombre.'); ok = false; }
       if (!emailOk(email))        { setErr('err-email', 'Escribe un correo válido.'); ok = false; }
@@ -173,10 +173,10 @@
       btn.disabled = true;
 
       try {
-        // Envío “simple” (sin headers) para evitar preflight/CORS
+       
         await fetch(WEBHOOK_URL, {
           method: "POST",
-          mode: "no-cors", // el navegador envía la petición aunque no podamos leer la respuesta
+          mode: "no-cors", 
           body: JSON.stringify({
             name,
             email,
@@ -186,7 +186,7 @@
           })
         });
 
-        // Reset y gracias
+     
         form.reset();
         modal.classList.add('on');
 
