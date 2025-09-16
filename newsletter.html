@@ -1,200 +1,144 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Suscríbete a la newsletter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Newsletter</title>
   <style>
-    :root{
-      --bg:#ffffff;
-      --text:#333333;
-      --muted:#6b7280;
-      --primary:#6c63ff;
-      --primary-hover:#5952d4;
-      --error:#ef4444;
-      --radius:14px;
-      --shadow:0 10px 30px rgba(0,0,0,.07);
+    body {
+      background-color: #ffffff;
+      font-family: Arial, sans-serif;
+      color: #333333;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
     }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text);
-      background:var(--bg);
+
+    .form-container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
     }
-    .wrap{
-      min-height:100dvh;
-      display:grid;
-      place-items:center;
-      padding:32px 16px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
     }
-    .card{
-      width:100%;
-      max-width:720px;
-      background:#fff;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:28px;
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
     }
-    h1{
-      margin:0 0 8px;
-      font-size:clamp(24px, 3.2vw, 34px);
-      letter-spacing:.2px;
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
     }
-    p.lead{ color:var(--muted); margin:0 0 24px; }
-    label{ display:block; font-weight:600; margin:14px 0 8px; }
-    .req{ color:#999; font-weight:400; }
-    input, textarea, button{
-      width:100%;
-      border:1px solid #e5e7eb;
-      padding:14px 15px;
-      border-radius:12px;
-      font:inherit;
-      outline:none;
-      transition:.15s border-color ease;
-      background:#fff;
+
+    input:invalid {
+      border-color: red;
     }
-    input:focus, textarea:focus{ border-color:#c7cbff; }
-    textarea{ min-height:110px; resize:vertical; }
-    .err{ color:var(--error); font-size:14px; margin-top:6px; display:none; }
-    .row{ display:grid; gap:14px; grid-template-columns:1fr; }
-    @media (min-width:640px){ .row{ grid-template-columns:1fr 1fr; } }
-    .actions{ margin-top:18px; display:flex; gap:12px; align-items:center; }
-    .btn{
-      background:var(--primary);
-      color:#fff; border:none; cursor:pointer;
-      font-weight:700;
-      border-radius:12px;
-      padding:14px 18px;
-      transition:.15s background ease, .15s transform ease;
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #8b6a2b;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    .btn:hover{ background:var(--primary-hover); transform:translateY(-1px); }
-    .btn[disabled]{ opacity:.6; cursor:wait; transform:none; }
-    .muted{ color:var(--muted); font-size:14px; }
-    /* Modal de gracias */
-    .modal{
-      position:fixed; inset:0; display:none;
-      place-items:center; background:rgba(0,0,0,.45); padding:20px;
+
+    button:hover {
+      background-color: #a27833;
     }
-    .modal.on{ display:grid; }
-    .modal .box{
-      background:#0f172a; color:#e2e8f0; border-radius:16px;
-      padding:26px 24px; max-width:520px; width:100%; text-align:center;
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
+
+    .success-popup {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
     }
-    .modal h2{ margin:0 0 6px; }
-    .modal p{ margin:0 0 18px; color:#cbd5e1; }
-    .modal .ok{ background:#22c55e; color:#0b1220; border:none; padding:12px 18px; border-radius:12px; font-weight:700; cursor:pointer; }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="card">
-      <h1>Suscríbete a la newsletter</h1>
-      <p class="lead">Recibe ideas útiles y casos reales sobre IA y SEO.</p>
+  <div class="form-container">
+    <h2>Suscríbete a la newsletter</h2>
+    <form id="newsletterForm">
+      <label for="name">Nombre</label>
+      <input type="text" id="name" name="name" required>
 
-      <form id="newsletter-form" novalidate>
-        <div class="row">
-          <div>
-            <label for="name">Nombre <span class="req">*</span></label>
-            <input id="name" name="name" type="text" placeholder="Tu nombre" autocomplete="given-name" />
-            <div class="err" id="err-name">Escribe tu nombre.</div>
-          </div>
-          <div>
-            <label for="email">Correo electrónico <span class="req">*</span></label>
-            <input id="email" name="email" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" />
-            <div class="err" id="err-email">Escribe un correo válido.</div>
-          </div>
-        </div>
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" required>
 
-        <label for="question">¿Qué te gustaría aprender sobre Inteligencia Artificial? <span class="req">*</span></label>
-        <textarea id="question" name="question" placeholder="Tu respuesta"></textarea>
-        <div class="err" id="err-question">Cuéntame al menos una frase.</div>
+      <label for="question">¿Qué te gustaría aprender de SEO o IA?</label>
+      <textarea id="question" name="question" rows="3" required></textarea>
 
-        <div class="actions">
-          <button class="btn" id="btn" type="submit">Suscribirme</button>
-          <span class="muted">* Campos obligatorios</span>
-        </div>
-
-        <div class="err" id="err-global" style="margin-top:10px;"></div>
-      </form>
-    </section>
-  </main>
-
-
-  <div class="modal" id="gracias">
-    <div class="box">
-      <h2>¡Gracias por suscribirte! 🎉</h2>
-      <p>Te llegará un correo de confirmación si es necesario.</p>
-      <button class="ok" id="close-thanks">Aceptar</button>
+      <button type="submit">Suscribirme</button>
+    </form>
+    <div class="success-popup" id="successMessage">
+      ¡Gracias por suscribirte!
     </div>
   </div>
 
   <script>
+    const form = document.getElementById('newsletterForm');
+    const successMessage = document.getElementById('successMessage');
 
-    const WEBHOOK_URL = https:https://hook.eu2.make.com/bvnb96s9tif1dd2l7zw1y7lsgxdiswwb;
-
-    const form  = document.getElementById('newsletter-form');
-    const btn   = document.getElementById('btn');
-    const modal = document.getElementById('thanks');
-    const close = document.getElementById('close-thanks');
-
-    const show = (el) => el.style.display = 'block';
-    const hide = (el) => el.style.display = 'none';
-
-    const setErr = (id, msg="") => {
-      const el = document.getElementById(id);
-      el.textContent = msg;
-      if (msg) show(el); else hide(el);
-    };
-
-    const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-
-    close.addEventListener('click', () => modal.classList.remove('on'));
-
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      setErr('err-global', "");
-      setErr('err-name', "");
-      setErr('err-email', "");
-      setErr('err-question', "");
 
-      const name     = form.name.value.trim();
-      const email    = form.email.value.trim();
+      // Validación
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
       const question = form.question.value.trim();
 
-   
-      let ok = true;
-      if (name.length < 2)        { setErr('err-name', 'Escribe tu nombre.'); ok = false; }
-      if (!emailOk(email))        { setErr('err-email', 'Escribe un correo válido.'); ok = false; }
-      if (question.length < 5)    { setErr('err-question', 'Cuéntame un poco más.'); ok = false; }
-      if (!ok) return;
+      if (!name || !email || !question) {
+        alert('Por favor, completa todos los campos.');
+        return;
+      }
 
-      btn.disabled = true;
+      const payload = {
+        name,
+        email,
+        question
+      };
 
       try {
-       
-        await fetch(WEBHOOK_URL, {
-          method: "POST",
-          mode: "no-cors", 
-          body: JSON.stringify({
-            name,
-            email,
-            question,
-            source: "newsletter-form",
-            timestamp: new Date().toISOString()
-          })
+        const response = await fetch('https://hook.eu2.make.com/ejemplodewebhook123', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
         });
 
-     
-        form.reset();
-        modal.classList.add('on');
-
-      } catch (err) {
-        setErr('err-global', "No se pudo enviar. Inténtalo de nuevo en un momento.");
-        console.error(err);
-      } finally {
-        btn.disabled = false;
+        if (response.ok) {
+          form.reset();
+          successMessage.style.display = 'block';
+        } else {
+          alert('Hubo un error al enviar el formulario. Intenta nuevamente.');
+        }
+      } catch (error) {
+        alert('Error de red o conexión. Intenta más tarde.');
+        console.error('Error:', error);
       }
     });
   </script>
